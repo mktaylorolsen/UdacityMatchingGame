@@ -1,7 +1,9 @@
 /*
- * Create a list that holds all of your cards
+ * List that holds all of the cards
+ * List for all the functions
  */
-var cardDeck = [
+var cardDeck = $(.card);
+var symbols = [
 "fa-diamond",
 "fa-paper-plane-o",
 "fa-anchor",
@@ -24,13 +26,27 @@ var cardDeck = [
 // Variable for move counter
 var numberOfMoves = 0;
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
+
+/* RESTART GAME */
+
+/*Main Function*/
+function restartGame(){
+  //shuffle the symbols
+  shuffle(symbols);
+  for(var x = 0; x < cardDeck.length; x++){
+    //clear all open, show and close classes
+    $(this).removeClass('open show match')
+    //clear the i html's from all the cards
+    $('i').remove();
+    //loop through the shuffled symbols
+    for(var l = 0; l < symbols.length; l++){
+      //append the current symbol to the current card.
+    }
+  }
+};
+
+/*Secondary Function*/
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -46,24 +62,6 @@ function shuffle(array) {
     return array;
 }
 
-// Loop through each card and create its html
-var newDeck = [];
-for(var x = 0; x < cardDeck.length; x++){
-  var cardHtml = cardDeck[x].html;
-  newDeck.push(cardHTML)
-  //TODO add cardHtml to the page
-}
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 
 // creates an array to keep the open cards in
 var openCards = [];
@@ -79,21 +77,12 @@ var openCards = [];
 
 
 
-
-
-
 /*
   FUNCTIONS
 */
 
 
-
-/*
-shuffle the cards
-get the icon html from each of the cards
-add the html back to the page
-*/
-
+/*Main Function*/
 function addToOpenCard(x){
   //add the card to a list of open cards
   openCards.push(x);
@@ -113,7 +102,7 @@ function addToOpenCard(x){
   }
 
 
-
+/*Secondary Function*/
 //determine if the cards are a match or not
 function cardMatch(){
   var firstCard = openCards[0].html();
@@ -124,6 +113,8 @@ function cardMatch(){
   if(firstCard === secondCard){
     //add match class to both
     $('.open').addClass('match');
+    matchCounter = matchCounter + 1;
+    howManyMatches();
   }
   else{
     cardsNoMatch();
@@ -146,6 +137,7 @@ function cardsNoMatch(){
 }
 
 
+/*Secondary Function*/
 //resets the cards
 function resetCards(){
   //remove show and open
@@ -155,6 +147,7 @@ function resetCards(){
 }
 
 
+/*Secondary Function*/
 //adds to the move counter and displays it
 function moveCounter(){
   numberOfMoves ++;
@@ -162,12 +155,18 @@ function moveCounter(){
 }
 
 
+
+/*Tertiary Function*/
+//match counter
+var matchCounter = 0;
 //will determine if all of the matches have been made
 function howManyMatches(){
-   var numMatchedCards = $('.match').length;
-   if (numMatchedCards === 16){
+   if (matchCounter === 16){
      gameWon();
      stopTime();
+   }
+   else{
+     console.log("Keep Playing!");
    }
 }
 
@@ -188,6 +187,10 @@ function stopTime(){
 function gameWon(){
   // use setTimeout to delay the message for 2 seconds so the user can see a clear picture of all the matches
 }
+
+
+
+
 
 
 //MODAL
