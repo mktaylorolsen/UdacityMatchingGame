@@ -36,15 +36,14 @@ var secStar = stars[1];
  });
 
 
-
-
-
 /*
   GAME FUNCTIONS
 */
 
 
-/* Main Function */
+/*
+  TIME COUNTER
+ */
 //time counter
 var time = 0;
 function timeVar(){
@@ -53,13 +52,19 @@ function timeVar(){
   },1000);
 }
 
-/* Main Function */
+
+/*
+  ADDS CLASSES
+ */
 //display the cards symbol by adding the open and show classes
 function openShow(x){
   x.addClass('open show');
 }
 
-/* Main Function */
+
+/*
+  ACTUAL GAME FUNCTION
+ */
 function addToOpenCard(x){
   //add the card to a list of open cards
   openCards.push(x);
@@ -79,7 +84,9 @@ function addToOpenCard(x){
   }
 
 
-/* Secondary Function */
+/*
+  DO CARDS MATCH
+ */
 //determine if the cards are a match or not
 function cardMatch(){
   var firstCard = openCards[0].html();
@@ -91,14 +98,17 @@ function cardMatch(){
     //add match class to both
     $('.open').addClass('match');
     matchCounter = matchCounter + 1;
-    howManyMatches();
+    gameWon();
   }
   else{
     cardsNoMatch();
   }
 }
 
-/* Tertiary Function */
+
+/*
+  ADDS ANIMATION FOR NON-MATCHED CARDS
+ */
 //add the nomatch class then remove it
 function cardsNoMatch(){
   $('.open').addClass('nomatch').delay(800).queue(function(next){
@@ -107,11 +117,16 @@ function cardsNoMatch(){
   });
 }
 
-/* Tertiary Function */
+
+/*
+  GAME WON and MODAL POP UP
+ */
 //will determine if all of the matches have been made
-function howManyMatches(){
+function gameWon(){
    if (matchCounter === 16){
-     gameWon();
+     setTimeout(function(){
+       modal.css('display','block');
+     }, 2000);
      clearInterval(timeVar);
    }
    else{
@@ -119,7 +134,10 @@ function howManyMatches(){
    }
 }
 
-/* Secondary Function */
+
+/*
+  RESET CARDS DURING GAMES
+ */
 //resets the cards
 function resetCards(){
   //remove show and open
@@ -129,7 +147,9 @@ function resetCards(){
 }
 
 
-/* Secondary Function */
+/*
+  MOVE COUNTER
+ */
 //adds to the move counter and displays it
 function moveCounter(){
   numberOfMoves ++;
@@ -138,26 +158,15 @@ function moveCounter(){
 
 
 /*
-STAR RATING
+  STAR RATING
 */
 function starRating(){
   if(numberOfMoves===9){
-    $(firstStar).css('color','lightgrey');
+    $(firstStar).addClass('starStyle');
   }
   if(numberOfMoves===17){
-    $(secStar).css('color','lightgrey');
+    $(secStar).addClass('starStyle');
   }
-}
-
-
-/* Ending Function */
-//popup modal
-function gameWon(){
-  // delay modal
-  setTimeout(function(){
-    modal.css('display','block');
-  }, 2000);
-
 }
 
 
@@ -166,8 +175,12 @@ function gameWon(){
   RESTART GAME FUNCTIONS
 */
 
-/*Main Function*/
+/*
+  RESET THE CARDS
+*/
 function restartGame(){
+  //reset the stars back
+  $('.star').removeClass('starStyle');
   //set number of moves back to 0
   numberOfMoves = 0;
   $('.moves').text(numberOfMoves);
@@ -184,7 +197,9 @@ function restartGame(){
 }
 
 
-/*Secondary Function*/
+/*
+  SHUFFLE
+*/
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -201,11 +216,9 @@ function shuffle(array) {
 }
 
 
-
 /*
   MODAL FUNCTIONS
 */
-
 
 // When the user clicks on (x), close the modal
 $(".close").click(function() {

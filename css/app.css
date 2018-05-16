@@ -149,6 +149,10 @@ h1 {
     cursor: pointer;
 }
 
+.starStyle {
+  color: lightgrey;
+}
+
 
 /* MODAL*/
 /* The Modal (background) */
