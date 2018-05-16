@@ -16,14 +16,6 @@ var modal = $('.modal');
 // Get the button that restarts
 var restartButton = $(".restart");
 
-//stars
-var stars = $('.fa-star');
-
-//first star
-var firstStar = stars[0];
-
-//second star
-var secStar = stars[1];
 
 
 // adds the event listener to the whole deck but filters using the event target to identify each card with the click
@@ -80,6 +72,8 @@ function addToOpenCard(x){
       resetCards();
       //tick the move counter
       moveCounter();
+      //check to see if the star should be deducted
+      starRating();
     }
   }
 
@@ -161,11 +155,11 @@ function moveCounter(){
   STAR RATING
 */
 function starRating(){
-  if(numberOfMoves===9){
-    $(firstStar).addClass('starStyle');
+  if(numberOfMoves >= 9){
+    $('.fa-star').first().addClass('starStyle');
   }
-  if(numberOfMoves===17){
-    $(secStar).addClass('starStyle');
+  if(numberOfMoves >= 17){
+    $("ul.stars li:eq(1)").addClass('starStyle');
   }
 }
 
