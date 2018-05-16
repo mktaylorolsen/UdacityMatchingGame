@@ -1,67 +1,11 @@
-/*
- * List that holds all of the cards
- * List for all the functions
- */
-var cardDeck = $(.card);
-var symbols = [
-"fa-diamond",
-"fa-paper-plane-o",
-"fa-anchor",
-"fa-bolt",
-"fa-cube",
-"fa-anchor",
-"fa-leaf",
-"fa-bicycle",
-"fa-diamond",
-"fa-bomb",
-"fa-leaf",
-"fa-bomb",
-"fa-bolt",
-"fa-bicycle",
-"fa-paper-plane-o",
-"fa-cube"
-];
-
+//List for all the functions
+var symbols = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"];
 
 // Variable for move counter
 var numberOfMoves = 0;
 
-
-
-/* RESTART GAME */
-
-/*Main Function*/
-function restartGame(){
-  //shuffle the symbols
-  shuffle(symbols);
-  for(var x = 0; x < cardDeck.length; x++){
-    //clear all open, show and close classes
-    $(this).removeClass('open show match')
-    //clear the i html's from all the cards
-    $('i').remove();
-    //loop through the shuffled symbols
-    for(var l = 0; l < symbols.length; l++){
-      //append the current symbol to the current card.
-    }
-  }
-};
-
-/*Secondary Function*/
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
-
+//Variable for match counter
+var matchCounter = 0;
 
 // creates an array to keep the open cards in
 var openCards = [];
@@ -77,12 +21,27 @@ var openCards = [];
 
 
 
+
+
 /*
-  FUNCTIONS
+  GAME FUNCTIONS
 */
 
 
-/*Main Function*/
+/* Main Function */
+//time counter
+var time = 0;
+var timeVar = setInterval(function(){
+    time = time + 1;
+  },1000);
+
+/* Main Function */
+//display the cards symbol by adding the open and show classes
+function openShow(x){
+  x.addClass('open show');
+}
+
+/* Main Function */
 function addToOpenCard(x){
   //add the card to a list of open cards
   openCards.push(x);
@@ -102,7 +61,7 @@ function addToOpenCard(x){
   }
 
 
-/*Secondary Function*/
+/* Secondary Function */
 //determine if the cards are a match or not
 function cardMatch(){
   var firstCard = openCards[0].html();
@@ -121,13 +80,7 @@ function cardMatch(){
   }
 }
 
-
-//display the cards symbol by adding the open and show classes
-function openShow(x){
-  x.addClass('open show');
-}
-
-
+/* Tertiary Function */
 //add the nomatch class then remove it
 function cardsNoMatch(){
   $('.open').addClass('nomatch').delay(800).queue(function(next){
@@ -136,8 +89,19 @@ function cardsNoMatch(){
   });
 }
 
+/* Tertiary Function */
+//will determine if all of the matches have been made
+function howManyMatches(){
+   if (matchCounter === 16){
+     gameWon();
+     clearInterval(timeVar);
+   }
+   else{
+     console.log("Keep Playing!");
+   }
+}
 
-/*Secondary Function*/
+/* Secondary Function */
 //resets the cards
 function resetCards(){
   //remove show and open
@@ -147,7 +111,7 @@ function resetCards(){
 }
 
 
-/*Secondary Function*/
+/* Secondary Function */
 //adds to the move counter and displays it
 function moveCounter(){
   numberOfMoves ++;
@@ -155,34 +119,7 @@ function moveCounter(){
 }
 
 
-
-/*Tertiary Function*/
-//match counter
-var matchCounter = 0;
-//will determine if all of the matches have been made
-function howManyMatches(){
-   if (matchCounter === 16){
-     gameWon();
-     stopTime();
-   }
-   else{
-     console.log("Keep Playing!");
-   }
-}
-
-
-//time counter
-var time = 0;
-var timeVar = setInterval(function(){
-    time = time + 1;
-  },1000);
-
-//stop time counter
-function stopTime(){
-  clearInterval(timeVar);
-}
-
-
+/* Ending Function */
 //creates pop up congratulating winner
 function gameWon(){
   // use setTimeout to delay the message for 2 seconds so the user can see a clear picture of all the matches
@@ -190,10 +127,46 @@ function gameWon(){
 
 
 
+/*
+  RESTART GAME FUNCTIONS
+*/
+
+/*Main Function*/
+function restartGame(){
+  //shuffle the symbols
+  shuffle(symbols);
+  //remove the cards from the deck
+  $('li').remove();
+  //loop through the shuffled symbols
+  for(var l = 0; l < symbols.length; l++){
+    //append the html to the deck with the current symbol
+    var newHTML = '<li class="card"><i class="fa ' + symbols[l].text() + '"></i></li>';
+    $('.deck').append(newHTML);
+  }
+}
 
 
+/*Secondary Function*/
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
-//MODAL
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+
+/*
+  MODAL FUNCTIONS
+*/
+
 // Get the modal
 var modal = $('.modal');
 
