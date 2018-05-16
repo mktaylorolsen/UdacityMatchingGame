@@ -10,6 +10,22 @@ var matchCounter = 0;
 // creates an array to keep the open cards in
 var openCards = [];
 
+// Get the modal
+var modal = $('.modal');
+
+// Get the button that restarts
+var restartButton = $(".restart");
+
+//stars
+var stars = $('.fa-star');
+
+//first star
+var firstStar = stars[0];
+
+//second star
+var secStar = stars[1];
+
+
 // adds the event listener to the whole deck but filters using the event target to identify each card with the click
  $('.deck').on('click',function(evt){
    var selectedCard = $(evt.target);
@@ -31,9 +47,11 @@ var openCards = [];
 /* Main Function */
 //time counter
 var time = 0;
-var timeVar = setInterval(function(){
+function timeVar(){
+  setInterval(function(){
     time = time + 1;
   },1000);
+}
 
 /* Main Function */
 //display the cards symbol by adding the open and show classes
@@ -119,10 +137,27 @@ function moveCounter(){
 }
 
 
+/*
+STAR RATING
+*/
+function starRating(){
+  if(numberOfMoves===9){
+    $(firstStar).css('color','lightgrey');
+  }
+  if(numberOfMoves===17){
+    $(secStar).css('color','lightgrey');
+  }
+}
+
+
 /* Ending Function */
-//creates pop up congratulating winner
+//popup modal
 function gameWon(){
-  // use setTimeout to delay the message for 2 seconds so the user can see a clear picture of all the matches
+  // delay modal
+  setTimeout(function(){
+    modal.css('display','block');
+  }, 2000);
+
 }
 
 
@@ -133,14 +168,17 @@ function gameWon(){
 
 /*Main Function*/
 function restartGame(){
+  //set number of moves back to 0
+  numberOfMoves = 0;
+  $('.moves').text(numberOfMoves);
   //shuffle the symbols
   shuffle(symbols);
   //remove the cards from the deck
-  $('li').remove();
+  $('.card').remove();
   //loop through the shuffled symbols
   for(var l = 0; l < symbols.length; l++){
     //append the html to the deck with the current symbol
-    var newHTML = '<li class="card"><i class="fa ' + symbols[l].text() + '"></i></li>';
+    var newHTML = '<li class="card"><i class="fa ' + symbols[l] + '"></i></li>';
     $('.deck').append(newHTML);
   }
 }
@@ -163,39 +201,26 @@ function shuffle(array) {
 }
 
 
+
 /*
   MODAL FUNCTIONS
 */
 
-// Get the modal
-var modal = $('.modal');
-
-// Get the button that plays again
-var restartButton = document.getElementByClass("restart");
-
-// Get the <span> element that closes the modal
-var closer = $(".close").text();
-
-// When the user wins the game, open the modal
-function showModal() {
-    modal.css('display','block');
-}
 
 // When the user clicks on (x), close the modal
-closer.onclick = function() {
-    modal.style.display = "none";
-}
+$(".close").click(function() {
+    modal.css('display', 'none');
+})
 
 // When the user clicks on Play Again button, restart the game
-restartButton.onclick = function() {
-    modal.style.display = "none";
-
-}
+restartButton.click(function() {
+    modal.css('display', 'none');
+    restartGame();
+});
 
 // When the user clicks anywhere outside of the modal, close it
-window.on('click', function(evt) {
+$(window).click(function(evt) {
     if (evt.target == modal) {
-        modal.style.display = "none";
-        shuffle(cardDeck);
+        modal.css('display', 'none');
     }
 });
