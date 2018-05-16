@@ -50,7 +50,7 @@ body {
 
 body {
     background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
-    font-family: 'Coda', cursive;
+    font-family: 'Poppins', sans-serif;
 }
 
 .container {
@@ -61,7 +61,7 @@ body {
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 300;
 }
 
@@ -155,11 +155,11 @@ h1 {
 
 
 /* MODAL*/
-/* The Modal (background) */
+
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1;
   	top: 50%;
   	left: 50%;
   	transform: translate(-50%, -50%);
@@ -167,41 +167,43 @@ h1 {
   	max-width: 100%;
     height: 1200px;
  	  max-height: 100%;
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: white; /* Black w/ opacity */
+    background-color: white;
     text-align: center;
 }
 /* Play Again Button */
-.button {
-    background-color: #02b3e4;;
+button {
+    background-color: #02ccba;
+    border-radius: 10px;
     border: none;
-    color: white;
+    color: #ffffff;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer;
 }
 
 /* Modal Content */
-.modal-content {
+.modalText {
     width: 100%;
-    padding-top: 35%;
+    padding-top: 25%;
+    text-align: center;
 }
 
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.congrats{
+    font-family: 'Pacifico', cursive;
+    font-size: 4em;
+    color: #02b3e4;
+    animation: grow 3s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
+.close{
+  background-color: #FF0000;
+}
+
+button:hover,
+button:focus{
     cursor: pointer;
+    background-color: #000;
 }
