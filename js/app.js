@@ -54,6 +54,8 @@ $('.deck').one('click',function(){
      }
      time.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
      timer();
+     var newTime = $('.timer').text();
+     $('.timeTook').text(newTime);
  }
 
  function timer() {
@@ -134,7 +136,6 @@ function cardsNoMatch(){
 //will determine if all of the matches have been made
 function gameWon(){
    if (matchCounter == 8){
-    $('.timeTook').textContent = ('.time');
     clearTimeout(t);
     setTimeout(function(){
       modal.css('display','block');
