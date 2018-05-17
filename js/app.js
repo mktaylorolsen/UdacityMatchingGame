@@ -16,6 +16,9 @@ var modal = $('.modal');
 // Get the button that restarts
 var restartButton = $(".restart");
 
+//timer variables
+var time = $('.timer')[0], seconds = 0, minutes = 0, hours = 0, t;
+
 
 
 // adds the event listener to the whole deck but filters using the event target to identify each card with the click
@@ -24,9 +27,11 @@ var restartButton = $(".restart");
    //display the card'symbol
    openShow(selectedCard);
    addToOpenCard(selectedCard);
-   timeVar();
  });
 
+$('.deck').one('click',function(){
+   add();
+})
 
 /*
   GAME FUNCTIONS
@@ -35,14 +40,25 @@ var restartButton = $(".restart");
 
 /*
   TIME COUNTER
+  adapted from: https://jsfiddle.net/Daniel_Hug/pvk6p/
  */
-//time counter
-var time = 0;
-function timeVar(){
-  setInterval(function(){
-    time = time + 1;
-  },1000);
-}
+ function add() {
+     seconds++;
+     if (seconds >= 60) {
+         seconds = 0;
+         minutes++;
+         if (minutes >= 60) {
+             minutes = 0;
+             hours++;
+         }
+     }
+     time.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+     timer();
+ }
+
+ function timer() {
+     t = setTimeout(add, 1000);
+ }
 
 
 /*
@@ -117,11 +133,12 @@ function cardsNoMatch(){
  */
 //will determine if all of the matches have been made
 function gameWon(){
-   if (matchCounter === 16){
-     setTimeout(function(){
-       modal.css('display','block');
-     }, 2000);
-     clearInterval(timeVar);
+   if (matchCounter == 8){
+    $('.timeTook').textContent = ('.time');
+    clearTimeout(t);
+    setTimeout(function(){
+      modal.css('display','block');
+    }, 1000);
    }
    else{
      console.log("Keep Playing!");
@@ -157,9 +174,14 @@ function moveCounter(){
 function starRating(){
   if(numberOfMoves >= 9){
     $('.fa-star').first().addClass('starStyle');
-  }
+    $('.starCount').text('2');
+    }
   if(numberOfMoves >= 17){
-    $("ul.stars li:eq(1)").addClass('starStyle');
+    $("i:eq(1)").addClass('starStyle');
+    $('.starCount').text('1');
+  }
+  if(numberOfMoves < 9){
+    $('.starCount').text('3');
   }
 }
 
@@ -173,11 +195,16 @@ function starRating(){
   RESET THE CARDS
 */
 function restartGame(){
+  //reset timer
+  clearTimeout(t);
+  time.textContent= "00:00:00";
   //reset the stars back
-  $('.star').removeClass('starStyle');
+  $('i').removeClass('starStyle');
   //set number of moves back to 0
   numberOfMoves = 0;
   $('.moves').text(numberOfMoves);
+  //reset match counter
+  matchCounter = 0;
   //shuffle the symbols
   shuffle(symbols);
   //remove the cards from the deck
@@ -220,7 +247,7 @@ $(".close").click(function() {
 })
 
 // When the user clicks on Play Again button, restart the game
-restartButton.click(function() {
+$('.restart').click(function() {
     modal.css('display', 'none');
     restartGame();
 });
