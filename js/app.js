@@ -10,6 +10,8 @@ var matchCounter = 0;
 // creates an array to keep the open cards in
 var openCards = [];
 
+var cardList = $('.card');
+
 // Get the modal
 var modal = $('.modal');
 
@@ -20,18 +22,10 @@ var restartButton = $(".restart");
 var time = $('.timer')[0], seconds = 0, minutes = 0, hours = 0, t;
 
 
-
-// adds the event listener to the whole deck but filters using the event target to identify each card with the click
- $('.deck').on('click',function(evt){
-   var selectedCard = $(evt.target);
-   //display the card'symbol
-   openShow(selectedCard);
-   addToOpenCard(selectedCard);
- });
-
-$('.deck').one('click',function(){
-   add();
-})
+//shuffle the game at start
+$(document).ready(function(){
+  restartGame();
+});
 
 /*
   GAME FUNCTIONS
@@ -69,6 +63,8 @@ $('.deck').one('click',function(){
 //display the cards symbol by adding the open and show classes
 function openShow(x){
   x.addClass('open show');
+  //prevents card from being clicked again
+
 }
 
 
@@ -77,7 +73,15 @@ function openShow(x){
  */
 function addToOpenCard(x){
   //add the card to a list of open cards
-  openCards.push(x);
+  if (x.hasClass('inList')){
+    alert('This card is already in the list.');
+  }
+  else{
+    //give the card the inList clas
+    x.addClass('inList');
+    //if the card is not already in the list then add it to the list
+    openCards.push(x);
+  }
   //check to see if the list has another card
   if (openCards.length === 1){
     //keep the card open
@@ -124,7 +128,7 @@ function cardMatch(){
 //add the nomatch class then remove it
 function cardsNoMatch(){
   $('.open').addClass('nomatch').delay(800).queue(function(next){
-      $(this).removeClass("nomatch");
+      $(this).removeClass("nomatch inList");
       next();
   });
 }
@@ -196,6 +200,8 @@ function starRating(){
   RESET THE CARDS
 */
 function restartGame(){
+  //remove them from the list. set the array to empty
+  openCards = [];
   //reset timer
   clearTimeout(t);
   time.textContent= "00:00:00";
@@ -216,8 +222,30 @@ function restartGame(){
     var newHTML = '<li class="card"><i class="fa ' + symbols[l] + '"></i></li>';
     $('.deck').append(newHTML);
   }
+  cardEventListener();
 }
 
+
+/*
+  ADDS EVENT LISTENER TO CARDS
+*/
+function cardEventListener(){
+  $('.card').each(function(){
+    $(this).on('click',function(evt){
+        var selectedCard = $(evt.target);
+        //display the card'symbol
+        openShow(selectedCard);
+        addToOpenCard(selectedCard);
+        if(selectedCard.hasClass('cardClickedTimerStarted')){
+          console.log('Timer is running.');
+        }
+        else{
+          $('.card').addClass('cardClickedTimerStarted');
+          add();
+        }
+    });
+  });
+}
 
 /*
   SHUFFLE
