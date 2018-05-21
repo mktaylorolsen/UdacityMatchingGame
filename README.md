@@ -5,8 +5,8 @@ symbols on each card. The player must attempt to match all of the 8 pairs on the
 
 ## Table of Contents
 
-* [Getting Started](#getting started)
-* [How to Play](#how to play)
+* [Getting Started](#gettingstarted)
+* [How to Play](#howtoplay)
 * [Dependencies](#dependencies)
 * [Contributing](#contributing)
 
