@@ -35,7 +35,7 @@ TIP: Get a better star rating by solving the game faster and in fewer moves.
 
 ## Dependencies
 
-* You must have an up-to-date browser.
+* The Matching Game depends on Font Awesome and Google Fonts for the symbols and styling, and the jQuery library in the Javascript file. 
 
 ## Contributing
 
